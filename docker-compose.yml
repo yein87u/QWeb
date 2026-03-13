@@ -1,0 +1,23 @@
+services:
+  frontend:
+    build: ./client
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+  backend:
+    build: ./server
+    volumes:
+      - db-data:/app/data
+    environment:
+      - DATABASE_PATH=/app/data/quantum_lab.db
+    expose:
+      - "8000"
+    restart: unless-stopped
+
+volumes:
+  db-data:

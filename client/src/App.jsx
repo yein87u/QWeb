@@ -27,7 +27,7 @@ function App() {
     };
 
 	useEffect(() => {
-		fetch('http://localhost:8000/experiments')
+		fetch('/api/experiments')
 			.then(res => res.json())
 			.then(data => {
 				console.log("從後端抓到的所有實驗:", data); // 在此檢查 data[0].input_data 是否存在
@@ -56,14 +56,14 @@ function App() {
 			let response;
 			if (editingExp) {
 				// 編輯模式：發送 PUT 請求到特定 ID
-				response = await fetch(`http://localhost:8000/experiment/${editingExp.id}`, {
+				response = await fetch(`/api/experiment/${editingExp.id}`, {
 					method: 'PUT',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(data)
 				});
 			} else {
 				// 新增模式：發送 POST 請求
-				response = await fetch('http://localhost:8000/experiments', {
+				response = await fetch('/api/experiments', {
 					method: 'POST',
 					headers: { 'Content-Type': 'application/json' },
 					body: JSON.stringify(data)
@@ -104,7 +104,7 @@ function App() {
 
 	const handleSelectExperiment = async (exp) => {
 		try {
-			const response = await fetch(`http://localhost:8000/experiments/${exp.id}`);
+			const response = await fetch(`/api/experiments/${exp.id}`);
 			const fullData = await response.json();
 			const mappedData = parseInputData(fullData.input_data);
 			let parsedCircuit = null;
@@ -140,7 +140,7 @@ function App() {
             message: "確定要刪除所有實驗嗎？",
             onConfirm: async () => {
                 try {
-                    await fetch('http://localhost:8000/experiments', { method: 'DELETE' });
+                    await fetch('/api/experiments', { method: 'DELETE' });
                     setExperiments([]);
                     setActiveExp(null);
                     setShowCircuit(false);
@@ -151,20 +151,18 @@ function App() {
             }
         });
     };
-
 	const handleClear = async () => {
 		if (!activeExp) return;
 		const updatedExp = { ...activeExp, circuit: null, circuit_data: null };
 		setActiveExp(updatedExp);
 		setShowCircuit(false);
-
 		setExperiments(prev => prev.map(exp => 
 			exp.id === updatedExp.id ? updatedExp : exp
 		));
 
 		// 同步後端
 		try {
-			await fetch(`http://localhost:8000/experiments/${updatedExp.id}`, {
+			await fetch(`/api/experiments/${updatedExp.id}`, {
 				method: 'PUT',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ circuit_data: null })
@@ -187,7 +185,7 @@ function App() {
 
 		try {
 			// 呼叫後端新增的 generate-qasm 路由
-			const response = await fetch('http://localhost:8000/generate-qasm', {
+			const response = await fetch('/api/generate-qasm', {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({
@@ -239,7 +237,7 @@ function App() {
 
 		try {
 			// 使用您後端定義的優化路由
-			const response = await fetch(`http://localhost:8000/optimize/${activeExp.id}`, {
+			const response = await fetch(`/api/optimize/${activeExp.id}`, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(payload),
@@ -287,7 +285,7 @@ function App() {
             onConfirm: async () => {
                 setExperiments((prev) => prev.filter((exp) => exp.id !== id));
                 try {
-                    await fetch(`http://localhost:8000/experiments/${id}`, { method: 'DELETE' });
+                    await fetch(`/api/experiments/${id}`, { method: 'DELETE' });
                 } catch (error) {
                     console.error("刪除失敗:", error);
                 }
@@ -301,7 +299,6 @@ function App() {
 
 	const parseInputData = (inputDataString) => {
 		if (!inputDataString) return [];
-
 		return inputDataString.split('\n').filter(line => line.trim() !== "").map(line => {
 			const [input, target] = line.split(',');
 			const targetint = parseInt(target, 10)
