@@ -78,7 +78,7 @@ const NewExperimentDialog = ({ isOpen, onClose, onCreate, initialData }) => {
         const updatedMappings = [...formData.mappings];
         // 計算當前最大允許值
         const maxVal = Math.pow(2, formData.quantumN) - 1;
-        const numericValue = parseInt(newValue, 10) || 0;
+        let numericValue = parseInt(newValue, 10) || 0;
 
         if (isNaN(numericValue)) {
             numericValue = 0;

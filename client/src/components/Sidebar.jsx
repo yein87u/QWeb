@@ -7,7 +7,7 @@ const Sidebar = ({ isOpen, experiments, onAdd, onClearAll, onSelect, onDelete, a
             <div className="sidebar-inner">
                 <div className="sidebar-header">
                     <Cpu className="text-blue-400 shrink-0" />
-                    <span className="font-bold text-lg whitespace-nowrap tracking-tight">量子實驗平台</span>
+                    <span className="font-bold text-lg whitespace-nowrap tracking-tight">量子實驗平台(Logos)</span>
                 </div>
                 
                 <div className="p-4">
