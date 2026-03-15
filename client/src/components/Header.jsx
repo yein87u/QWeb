@@ -20,11 +20,11 @@ const Header = ({ toggleSidebar, onBackToHome }) => {
                     role="button"
                     tabIndex={0}
                 >
-                    <img 
+                    {/* <img 
                         src={logo} 
                         alt="QuantumSolver Logo" 
                         style={{ width: 'auto', height: '40px', objectFit: 'contain' }}
-                    />
+                    /> */}
                     <h1 className="text-xl font-extrabold tracking-tight text-slate-800">
                         Quantum<span className="text-blue-600">Solver</span>
                     </h1>

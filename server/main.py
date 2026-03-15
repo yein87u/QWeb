@@ -134,7 +134,7 @@ async def generate_qasm(data: ExportRequest):
 
         # 取得 Qubit 數量 (n)
         n = len(circuit_steps[0])
-        qc = QuantumCircuit(n)
+        qc = QuantumCircuit(n, n)
 
         for step in circuit_steps:
             # 1 代表控制位 (Control), 3 代表目標位 (Target/NOT)
@@ -152,7 +152,8 @@ async def generate_qasm(data: ExportRequest):
                     qc.mcx(controls, target)
             
             qc.barrier()
-
+        
+        qc.measure(range(n), range(n))
         qasm_string = qasm2.dumps(qc)
         
         return {"qasm": qasm_string, "title": data.title}
