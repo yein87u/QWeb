@@ -1,13 +1,17 @@
 import React from 'react';
 import { Plus, Trash2, History, Cpu, Edit2} from 'lucide-react';
+import "./i18n";
+import { useTranslation } from "react-i18next";
 
 const Sidebar = ({ isOpen, experiments, onAdd, onClearAll, onSelect, onDelete, activeId, onEdit }) => {
+    const { t } = useTranslation();
+
     return (
         <aside className={`sidebar-aside ${isOpen ? 'w-64' : 'w-0'}`}>
             <div className="sidebar-inner">
                 <div className="sidebar-header">
                     <Cpu className="text-blue-400 shrink-0" />
-                    <span className="font-bold text-lg whitespace-nowrap tracking-tight">量子實驗平台(Logos)</span>
+                    <span className="font-bold text-lg whitespace-normal break-words tracking-tight leading-tight">{t("app_title")}</span>
                 </div>
                 
                 <div className="p-4">
@@ -15,13 +19,13 @@ const Sidebar = ({ isOpen, experiments, onAdd, onClearAll, onSelect, onDelete, a
                         onClick={onAdd}
                         className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-500 py-2.5 rounded-lg font-medium transition-all active:scale-95 whitespace-nowrap text-white"
                     >
-                        <Plus size={18} /> 新增實驗
+                        <Plus size={18} /> {t("add_experiment")}
                     </button>
                 </div>
 
                 <div className="flex-1 overflow-y-auto px-3">
                     <div className="text-[10px] font-bold text-slate-500 px-2 mb-3 uppercase tracking-[0.2em] flex items-center gap-2">
-                        <History size={12} className="shrink-0" /> 歷史紀錄
+                        <History size={12} className="shrink-0" /> {t("history")}
                     </div>
                     <div className="space-y-1">
                         {experiments.map((exp) => {
@@ -56,7 +60,7 @@ const Sidebar = ({ isOpen, experiments, onAdd, onClearAll, onSelect, onDelete, a
                                                     onEdit(exp);
                                                 }}
                                                 className="text-blue-400 hover:text-blue-300 transition-colors p-1"
-                                                title="編輯實驗參數"
+                                                title={t("edit_experiment_params")}
                                             >
                                                 <Edit2 size={14} />
                                             </button>
@@ -82,7 +86,7 @@ const Sidebar = ({ isOpen, experiments, onAdd, onClearAll, onSelect, onDelete, a
                         onClick={onClearAll}
                         className="w-full flex items-center gap-2 text-xs text-slate-500 hover:text-red-400 transition-colors"
                     >
-                        <Trash2 size={14} /> 清除所有數據
+                        <Trash2 size={14} /> {t("clear_all_data")}
                     </button>
                 </div>
             </div>

@@ -1,0 +1,54 @@
+{
+    "wait_msg": "等待目前實驗迭代完成",
+    "save_error_msg": "儲存失敗，請檢查後端連線",
+    "confirm_del_all_exp_msg": "確定要刪除所有實驗嗎？",
+    "confirm_del_exp_msg": "確定要刪除這個實驗嗎？",
+    "export_no_circuit_msg": "目前沒有可匯出的電路資料！",
+    "export_failure_msg": "匯出失敗，請檢查後端連線或電路數據是否正確。",
+    "welcome_title": "您好, 研究員",
+    "welcome_subtitle": "準備好開始新的量子電路優化了嗎？",
+    "stat_card_label": "系統狀態",
+    "hero_title": "建立全新實驗",
+    "hero_desc": "目前尚未選取任何實驗。請從側邊欄選擇歷史紀錄，或點擊下方按鈕建立新的電路優化任務。",
+    "now_start": "立即開始",
+
+    "app_title": "量子實驗平台(Logos)",
+    "add_experiment": "新增實驗",
+    "history": "歷史紀錄",
+    "edit_experiment_params": "編輯實驗參數",
+    "clear_all_data": "清除所有數據",
+
+    "canvas_mask_status": "演算法運算中...",
+    "canvas_mask_progress": "完成度 {{val}}%",
+    "text_sm": "尚未生成電路。",
+
+    "system_confirm": "系統確認",
+    "system_cancel": "取消",
+    "system_confirm_action": "確認",
+
+    "data_mapping_table": "數據映射表",
+    "input": "輸入",
+    "target_output": "目標輸出",
+    "output_preview": "輸出預覽",
+
+    "hide_data": "隱藏數據",
+    "view_data": "查看數據",
+    "start_iteration": "開始迭代",
+    "export_circuit": "匯出電路",
+    "clear_data": "清除數據",
+
+    "data_length_error": "數據長度錯誤！\n\n您設定的量子位元數 N={{n}}，預期需要 {{expected}} 個數據，但您上傳的檔案包含 {{actual}} 個數據。\n\n請調整數據後再上傳。",
+    "configure_exp_params": "配置實驗參數",
+    "unnamed_experiment": "未命名實驗",
+    "first_step": "第一步：設定實驗基礎",
+    "exp_name": "實驗名稱：",
+    "quantum_n": "量子位元數 (N): ",
+    "second_step": "第二步：輸入數據",
+    "import": "匯入",
+    "third_step": "第三步：最後確認",
+    "previous_step": "上一步",
+    "next_step": "下一步",
+    "confirm_start": "確認並開始"
+}
+
+

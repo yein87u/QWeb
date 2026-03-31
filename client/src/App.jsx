@@ -6,6 +6,8 @@ import CircuitCanvas from './components/CircuitCanvas';
 import NewExperimentDialog from './components/NewExperimentDialog';
 import ConfirmDialog from './components/ConfirmDialog';
 import { PlusCircle } from 'lucide-react';
+import "./components/i18n";
+import { useTranslation } from "react-i18next";
 
 function App() {
 	const [isSidebarOpen, setSidebarOpen] = useState(true);
@@ -20,6 +22,7 @@ function App() {
         onConfirm: null,
 		onlyConfirm: false
     });
+	const { t } = useTranslation();
 	const [editingExp, setEditingExp] = useState(null);
 
 	const closeDialog = () => {
@@ -40,7 +43,7 @@ function App() {
 		if (isIterating) {
 			setDialogConfig({
 				isOpen: true,
-				message: "等待目前實驗迭代完成",
+				message: t("wait_msg"),
 				onlyConfirm: true,
 				onConfirm: closeDialog
 			});
@@ -95,7 +98,7 @@ function App() {
 		} catch (err) {
 			setDialogConfig({
 				isOpen: true,
-				message: "儲存失敗，請檢查後端連線",
+				message: t("save_error_msg"),
 				onConfirm: async () => {}
 			});
 			console.error("Save Error:", err);
@@ -124,7 +127,7 @@ function App() {
 			});
 			setShowCircuit(!!parsedCircuit);
 		} catch (err) {
-		console.error("載入實驗詳情失敗", err);
+			console.error("載入實驗詳情失敗", err);
 		}
 	}
 
@@ -137,7 +140,7 @@ function App() {
 	const handleClearAll = () => {
         setDialogConfig({
             isOpen: true,
-            message: "確定要刪除所有實驗嗎？",
+            message: t("confirm_del_all_exp_msg"),
             onConfirm: async () => {
                 try {
                     await fetch('http://localhost:8000/experiments', { method: 'DELETE' });
@@ -179,7 +182,7 @@ function App() {
 		if (!activeExp || !activeExp.circuit) {
 			setDialogConfig({
 				isOpen: true,
-				message: "目前沒有可匯出的電路資料！",
+				message: t("export_no_circuit_msg"),
 				onConfirm: async () => {}
 			});
 			return;
@@ -220,7 +223,7 @@ function App() {
 			console.error("匯出失敗:", error);
 			setDialogConfig({
 				isOpen: true,
-				message: "匯出失敗，請檢查後端連線或電路數據是否正確。",
+				message: t("export_failure_msg"),
 				onConfirm: async () => {}
 			});
 		}
@@ -283,7 +286,7 @@ function App() {
 	const handleDelete = (id) => {
         setDialogConfig({
             isOpen: true,
-            message: "確定要刪除這個實驗嗎？",
+            message: t("confirm_del_exp_msg"),
             onConfirm: async () => {
                 setExperiments((prev) => prev.filter((exp) => exp.id !== id));
                 try {
@@ -372,12 +375,12 @@ function App() {
 								<div className="empty-dashboard-wrapper">
 									<section className="welcome-section">
 										<div>
-											<h1 className="welcome-title">您好, 研究員</h1>
-											<p className="welcome-subtitle">準備好開始新的量子電路優化了嗎？</p>
+											<h1 className="welcome-title">{t("welcome_title")}</h1>
+											<p className="welcome-subtitle">{t("welcome_subtitle")}</p>
 										</div>
 										<div className="stat-card-group">
 											<div className="stat-card">
-												<div className="stat-card-label">系統狀態</div>
+												<div className="stat-card-label">{t("stat_card_label")}</div>
 												<div className="stat-card-value status-ready">Ready</div>
 											</div>
 										</div>
@@ -387,16 +390,16 @@ function App() {
 									<div className="hero-grid">
 										<div className="hero-banner">
 											<div className="hero-content">
-												<h2 className="hero-title">建立全新實驗</h2>
+												<h2 className="hero-title">{t("hero_title")}</h2>
 												<p className="hero-desc">
-													目前尚未選取任何實驗。請從側邊欄選擇歷史紀錄，或點擊下方按鈕建立新的電路優化任務。
+													{t("hero_desc")}
 												</p>
 												<button
 													onClick={() => checkIterating(() => setIsDialogOpen(true))}
 													className="hero-btn"
 												>
 													<PlusCircle size={20} />
-													立即開始
+													{t("now_start")}
 												</button>
 											</div>
 											<div className="hero-bg-icon">
