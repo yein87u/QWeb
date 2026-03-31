@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
 import { Play, RefreshCw, Table as TableIcon } from 'lucide-react';
 import DataMappingTable from './DataMappingTable'; // 匯入拆分出來的元件
+import "./i18n";
+import { useTranslation } from "react-i18next";
 
 const ExperimentForm = ({ currentExp, onStart, onClear, isIterating, onExport }) => {
     const [isTableOpen, setIsTableOpen] = useState(false);
+    const { t } = useTranslation();
 
     if (!currentExp) return null;
 
@@ -21,7 +24,7 @@ const ExperimentForm = ({ currentExp, onStart, onClear, isIterating, onExport })
                             onClick={() => setIsTableOpen(!isTableOpen)}
                             className="btn-base btn-outline"
                         >
-                            <TableIcon size={16} /> {isTableOpen ? '隱藏數據' : '查看數據'}
+                            <TableIcon size={16} /> {isTableOpen ? t("hide_data") : t("view_data")}
                         </button>
                         
                         <button 
@@ -30,15 +33,15 @@ const ExperimentForm = ({ currentExp, onStart, onClear, isIterating, onExport })
                             className={`btn-primary ${isIterating ? 'btn-primary-disabled' : 'btn-primary-enabled'} ${!isIterating && !currentExp.circuit ? 'btn-primary-pulse' : ''}`}
                         >
                             {isIterating ? <RefreshCw className="animate-spin" size={18} /> : <Play size={18} fill="currentColor" />}
-                            開始迭代
+                            {t("start_iteration")}
                         </button>
 
                         <button onClick={onExport} className="btn-base btn-outline">
-                            匯出電路
+                            {t("export_circuit")}
                         </button>
 
                         <button onClick={onClear} className="btn-base btn-outline">
-                            清除
+                            {t("clear_data")}
                         </button>
                     </div>
                 </div>

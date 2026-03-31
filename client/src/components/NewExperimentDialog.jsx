@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { X, ChevronLeft, ChevronRight, Upload, Table as TableIcon } from 'lucide-react';
+import "./i18n";
+import { useTranslation } from "react-i18next";
 
     
 const parseInputData = (inputDataString) => {
@@ -16,32 +18,32 @@ const parseInputData = (inputDataString) => {
     });
 };
 
-const getInitialState = (initialData) => {
+const getInitialState = (initialData, t) => {
     if (initialData) {
         return {
-            title: initialData.title || '未命名實驗',
+            title: initialData.title || t("unnamed_experiment"),
             quantumN: initialData.quantumN || 1,
             mappings: parseInputData(initialData.input_data) || [] 
         };
     }
     return {
-        title: '未命名實驗',
+        title: t("unnamed_experiment"),
         quantumN: 1,
         mappings: []
     };
 };
 
 const NewExperimentDialog = ({ isOpen, onClose, onCreate, initialData }) => {
+    const { t } = useTranslation();
     const [step, setStep] = useState(1);
     const fileInputRef = useRef(null);
-    const [formData, setFormData] = useState(getInitialState(initialData));
+    const [formData, setFormData] = useState(getInitialState(initialData, t));
     const isReady = step === 1 ? formData.title.length > 0 : formData.mappings.length > 0;
-
 
     useEffect(() => {
         if (isOpen) {
             setStep(1);
-            setFormData(getInitialState(initialData)); 
+            setFormData(getInitialState(initialData, t)); 
         }
         
     }, [isOpen, initialData]);
@@ -121,7 +123,11 @@ const NewExperimentDialog = ({ isOpen, onClose, onCreate, initialData }) => {
 
             const expectedCount = Math.pow(2, formData.quantumN);
             if (values.length !== expectedCount) {
-                alert(`數據長度錯誤！\n\n您設定的量子位元數 N=${formData.quantumN}，預期需要 ${expectedCount} 個數據，但您上傳的檔案包含 ${values.length} 個數據。\n\n請調整數據後再上傳。`);
+                alert(t("error_data_length", { 
+                        n: formData.quantumN, 
+                        expected: expectedCount, 
+                        actual: values.length 
+                    }));
                 return;
             }
             const updatedMappings = formData.mappings.map((mapping, idx) => {
@@ -144,7 +150,7 @@ const NewExperimentDialog = ({ isOpen, onClose, onCreate, initialData }) => {
         <div className="modal-overlay">
             <div className="modal-content">
                 <div className="flex justify-between items-center p-6 border-b border-slate-100">
-                    <h3 className="text-xl font-bold text-slate-800">配置實驗參數 ({step}/3)</h3>
+                    <h3 className="text-xl font-bold text-slate-800">{t("configure_exp_params")} ({step}/3)</h3>
                     <button onClick={onClose} className="text-slate-400 hover:text-slate-600 transition-colors">
                         <X size={20} />
                     </button>
@@ -153,10 +159,10 @@ const NewExperimentDialog = ({ isOpen, onClose, onCreate, initialData }) => {
                 <div className="flex-1 overflow-y-auto p-8">
                 {step === 1 && (
                     <div className="space-y-8">
-                        <h4 className="text-2xl font-bold text-slate-800">第一步：設定實驗基礎</h4>
+                        <h4 className="text-2xl font-bold text-slate-800">{t("first_step")}</h4>
                         <div className="space-y-6">
                             <div className="flex items-center gap-4">
-                                <label className="w-32 font-medium text-slate-700">實驗名稱：</label>
+                                <label className="w-32 font-medium text-slate-700">{t("exp_name")}</label>
                                 <input 
                                     type="text"
                                     className="flex-1 p-2 border border-blue-100 rounded-lg bg-slate-50 focus:ring-2 focus:ring-blue-500 outline-none"
@@ -165,7 +171,7 @@ const NewExperimentDialog = ({ isOpen, onClose, onCreate, initialData }) => {
                                 />
                             </div>
                             <div className="flex items-center gap-4">
-                                <label className="w-32 font-medium text-slate-700">量子位元數 (N): </label>
+                                <label className="w-32 font-medium text-slate-700">{t("quantum_n")}</label>
                                 <input 
                                     type="number"
                                     className="w-24 p-2 border border-blue-100 rounded-lg bg-slate-50 focus:ring-2 focus:ring-blue-500 outline-none"
@@ -186,23 +192,23 @@ const NewExperimentDialog = ({ isOpen, onClose, onCreate, initialData }) => {
 
                 {step === 2 && (
                     <div className="space-y-6">
-                        <h4 className="text-2xl font-bold text-slate-800">第二步：輸入數據</h4>
+                        <h4 className="text-2xl font-bold text-slate-800">{t("second_step")}</h4>
                         <div className="flex gap-3">
                             <input type="file" ref={fileInputRef} className="hidden" accept=".txt" onChange={handleFileUpload} />
                             <button 
                                 onClick={() => fileInputRef.current.click()}
                                 className="flex items-center gap-2 px-4 py-2 border border-blue-200 bg-blue-50 text-blue-700 rounded-lg text-sm font-medium hover:bg-blue-100 transition"
                             >
-                                <Upload size={16} /> 匯入
+                                <Upload size={16} /> {t("import")}
                             </button>
                         </div>
                         <div className="border border-slate-200 rounded-xl overflow-hidden">
                             <table className="w-full text-left border-collapse table-fixed">
                                 <thead className="bg-slate-50 border-b border-slate-200">
                                     <tr>
-                                        <th className="w-1/4 table-header-sm">輸入 |Input⟩</th>
-                                        <th className="w-1/2 table-header-sm">目標輸出</th>
-                                        <th className="w-1/4 table-header-sm">輸出預覽 |Output⟩</th>
+                                        <th className="w-1/4 table-header-sm">{t("input")}</th>
+                                        <th className="w-1/2 table-header-sm">{t("target_output")}</th>
+                                        <th className="w-1/4 table-header-sm">{t("output_preview")}</th>
                                     </tr>
                                 </thead>
                                 <tbody className="divide-y divide-slate-100">
@@ -232,14 +238,14 @@ const NewExperimentDialog = ({ isOpen, onClose, onCreate, initialData }) => {
 
                 {step === 3 && (
                     <div className="space-y-8">
-                        <h4 className="text-2xl font-bold text-slate-800">第三步：最後確認</h4>
+                        <h4 className="text-2xl font-bold text-slate-800">{t("third_step")}</h4>
                         <div className="space-y-4 text-lg">
                             <p className="flex gap-2">
-                                <span className="font-bold text-slate-600">實驗名稱：</span>
+                                <span className="font-bold text-slate-600">{t("exp_name")}</span>
                                 <span className="text-slate-800">{formData.title}</span>
                             </p>
                             <p className="flex gap-2">
-                                <span className="font-bold text-slate-600">量子位元：</span>
+                                <span className="font-bold text-slate-600">{t("quantum_n")}</span>
                                 <span className="text-slate-800">{formData.quantumN}</span>
                             </p>
                         </div>
@@ -250,7 +256,7 @@ const NewExperimentDialog = ({ isOpen, onClose, onCreate, initialData }) => {
                 <div className="p-6 border-t border-slate-100 flex justify-between bg-slate-50/50">
                     {step > 1 ? (
                         <button onClick={prevStep} className="px-6 py-2 border border-slate-300 bg-white rounded-xl font-bold text-slate-700 hover:bg-slate-50 transition">
-                            上一步
+                            {t("previous_step")}
                         </button>
                     ) : <div />}
                     
@@ -261,7 +267,7 @@ const NewExperimentDialog = ({ isOpen, onClose, onCreate, initialData }) => {
                                 ${isReady ? 'bg-blue-50 border-blue-300 text-blue-700 animate-pulse btn-ring-style' : 'bg-white border-slate-200 text-slate-700'}
                             `}
                         >
-                            下一步
+                            {t("next_step")}
                         </button>
                     ) : (
                         <button 
@@ -270,7 +276,7 @@ const NewExperimentDialog = ({ isOpen, onClose, onCreate, initialData }) => {
                                 ${isReady ? 'bg-blue-600 text-white animate-pulse btn-ring-style' : 'bg-slate-900 text-white hover:bg-slate-800'}
                             `}
                         >
-                            確認並開始
+                            {t("confirm_start")}
                         </button>
                     )}
                 </div>

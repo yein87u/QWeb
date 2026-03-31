@@ -1,0 +1,53 @@
+{
+    "wait_msg": "Please wait for the current experiment iteration to complete.",
+    "save_error_msg": "Save failed. Please check your backend connection.",
+    "confirm_del_all_exp_msg": "Are you sure you want to delete all experiments?",
+    "confirm_del_exp_msg": "Are you sure you want to delete this experiment?",
+    "export_no_circuit_msg": "No circuit data available for export!",
+    "export_failure_msg": "Export failed. Please check your backend connection or circuit data accuracy.",
+    "welcome_title": "Hello, Researcher",
+    "welcome_subtitle": "Ready to start a new quantum circuit optimization?",
+    "stat_card_label": "System Status",
+    "hero_title": "Create New Experiment",
+    "hero_desc": "No experiment selected. Please select a record from the sidebar or click the button below to start a new circuit optimization task.",
+    "now_start": "Start now",
+
+    "app_title": "Quantum Experiment Platform (Logos)",
+    "add_experiment": "Add Experiment",
+    "history": "History",
+    "edit_experiment_params": "Edit Experiment Parameters",
+    "clear_all_data": "Clear All Data",
+
+    "canvas_mask_status": "Algorithm in progress...",
+    "canvas_mask_progress": "Progress: {{val}}%",
+    "text_sm": "No circuit generated yet.",
+
+    "system_confirm": "System Confirm",
+    "system_cancel": "Cancel",
+    "system_confirm_action": "Confirm",
+
+    "data_mapping_table": "Data Mapping Table",
+    "input": "Input",
+    "target_output": "Target Output",
+    "output_preview": "Output Preview",
+
+    "hide_data": "Hide Data",
+    "view_data": "View Data",
+    "start_iteration": "Start Iteration",
+    "export_circuit": "Export Circuit",
+    "clear_data": "Clear Data",
+
+    "error_data_length": "Data Length Mismatch!\n\nNumber of qubits set to N={{n}}. Expected {{expected}} data entries, but the uploaded file contains {{actual}} entries.\n\nPlease adjust your data and upload again.",
+    "configure_exp_params": "Configure Experiment Parameters",
+    "unnamed_experiment": "Unnamed Experiment",
+    "first_step": "Step 1: Basic Setup",
+    "exp_name": "Experiment Name:",
+    "quantum_n": "Number of Qubits (N):",
+    "second_step": "Step 2: Input Data",
+    "import": "Import",
+    "third_step": "Step 3: Final Confirmation",
+    "previous_step": "Previous",
+    "next_step": "Next",
+    "confirm_start": "Confirm and Start"
+
+}

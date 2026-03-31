@@ -1,11 +1,14 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Search } from 'lucide-react';
+import "./i18n";
+import { useTranslation } from "react-i18next";
 
 const CircuitCanvas = ({ showCircuit, isIterating, n, circuitData, progress = 0 }) => {
     const canvasRef = useRef(null);
     const containerRef = useRef(null);
     const [scrollLeft, setScrollLeft] = useState(0);
     const quantumN = parseInt(n) || 0;
+    const { t } = useTranslation();
     
     // 繪圖參數
     const stepWidth = circuitData && circuitData.length > 20 ? 50 : 80;
@@ -32,7 +35,7 @@ const CircuitCanvas = ({ showCircuit, isIterating, n, circuitData, progress = 0 
         canvas.height = viewHeight;
         ctx.clearRect(0, 0, viewWidth, viewHeight);
 
-        // 1. 計算當前可見範圍
+        // 計算當前可見範圍
         const startIndex = Math.max(0, Math.floor((scrollLeft) / stepWidth) - 2);
         const endIndex = Math.min(circuitData.length, Math.ceil((scrollLeft + viewWidth) / stepWidth) + 2);
 
@@ -140,11 +143,11 @@ const CircuitCanvas = ({ showCircuit, isIterating, n, circuitData, progress = 0 
                     <div className="canvas-loader-spinner"></div>
                     
                     <p className="canvas-mask-status">
-                        演算法運算中...
+                        {t("canvas_mask_status")}
                     </p>
                     
                     <p className="canvas-mask-progress">
-                        完成度 {progress}%
+                        {t("canvas_mask_progress", { val: progress })}
                     </p>
                 </div>
             </div>
@@ -163,7 +166,7 @@ const CircuitCanvas = ({ showCircuit, isIterating, n, circuitData, progress = 0 
                 {(!circuitData || !showCircuit) && !isIterating && (
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-slate-600">
                         <Search size={32} className="opacity-20 mb-4" />
-                        <p className="text-sm">尚未生成電路。</p>
+                        <p className="text-sm">{t("text_sm")}</p>
                     </div>
                 )}
 
